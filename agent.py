@@ -2,23 +2,25 @@ import json
 import os
 import time
 import faiss
-import google.generativeai as genai
+from openai import OpenAI
 from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
 
 load_dotenv()
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel("gemini-2.5-flash")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 embedder = SentenceTransformer('all-MiniLM-L6-v2')
 
 def call_llm(prompt: str) -> str:
-    time.sleep(4)
-    response = model.generate_content(prompt)
-    return response.text.strip()
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.7
+    )
+    return response.choices[0].message.content.strip()
 
 def load_candidates():
-    with open("candidates.json") as f:
+    with open("data/candidates.json") as f:
         return json.load(f)
 
 def parse_jd(job_description: str) -> dict:
