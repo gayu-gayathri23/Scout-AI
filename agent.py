@@ -20,7 +20,7 @@ def call_llm(prompt: str) -> str:
     return response.choices[0].message.content.strip()
 
 def load_candidates():
-    with open("data/candidates.json") as f:
+    with open("candidates.json") as f:
         return json.load(f)
 
 def parse_jd(job_description: str) -> dict:
