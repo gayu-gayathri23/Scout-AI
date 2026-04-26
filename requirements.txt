@@ -1,7 +1,6 @@
 streamlit
-anthropic
+openai
 sentence-transformers
 faiss-cpu
 pandas
 python-dotenv
-google-generativeai
